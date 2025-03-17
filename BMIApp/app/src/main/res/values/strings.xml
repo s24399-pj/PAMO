@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kalkulator BMI</string>
+    <string name="bmi_calculator">Kalkulator BMI</string>
+    <string name="weight_hint">Waga (kg)</string>
+    <string name="height_hint">Wzrost (cm)</string>
+    <string name="calculate_button">Oblicz BMI</string>
+    <string name="enter_values">Wprowadź wagę i wzrost</string>
+    <string name="enter_valid_values">Wprowadź poprawne wartości</string>
+    <string name="enter_valid_numbers">Wprowadź poprawne wartości liczbowe</string>
+    <string name="your_bmi">Twoje BMI: %.2f</string>
+    <string name="next">Dalej</string>
+    <string name="previous">Wstecz</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus dui nec risus.</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="first_fragment_label">Strona Główna</string>
+    <string name="second_fragment_label">Wyniki BMI</string>
+</resources>
