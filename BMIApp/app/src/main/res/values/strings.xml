@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kalkulator BMI</string>
+    <string name="app_name">FitApp</string>
     <string name="bmi_calculator">Kalkulator BMI</string>
     <string name="weight_hint">Waga (kg)</string>
     <string name="height_hint">Wzrost (cm)</string>

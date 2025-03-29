@@ -29,8 +29,5 @@ public class HomeFragment extends Fragment {
 
         view.findViewById(R.id.btnCalorieCalculator).setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.calorieCalculatorFragment));
-
-        view.findViewById(R.id.btnRecipes).setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.recipesFragment));
     }
 }

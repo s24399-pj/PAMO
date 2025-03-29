@@ -16,9 +16,4 @@
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Kalorie" />
 
-    <item
-        android:id="@+id/recipesFragment"
-        android:icon="@android:drawable/ic_menu_slideshow"
-        android:title="Przepisy" />
-
 </menu>

@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         // Ustawiamy temat bezpośrednio przed setContentView
         setTheme(androidx.appcompat.R.style.Theme_AppCompat_Light_DarkActionBar);
 
+        // Ustawiamy tytuł aplikacji
+        setTitle("FitApp");
+
         setContentView(R.layout.activity_main);
 
         try {
@@ -30,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
             BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
             navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-            // Configure app bar
+            // Configure app bar - usunięto recipesFragment
             AppBarConfiguration appBarConfig = new AppBarConfiguration.Builder(
                     R.id.homeFragment, R.id.bmiCalculatorFragment,
-                    R.id.calorieCalculatorFragment, R.id.recipesFragment
+                    R.id.calorieCalculatorFragment
             ).build();
 
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig);

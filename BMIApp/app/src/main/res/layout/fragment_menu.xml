@@ -22,7 +22,7 @@
         android:id="@+id/welcomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Witaj w aplikacji fitness!"
+        android:text="Witaj w aplikacji FitApp!"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textAlignment="center"

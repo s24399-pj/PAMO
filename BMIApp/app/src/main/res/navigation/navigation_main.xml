@@ -23,9 +23,4 @@
         android:label="Kalorie"
         tools:layout="@layout/fragment_calorie_calculator" />
 
-    <fragment
-        android:id="@+id/recipesFragment"
-        android:name="pl.pjwstk.bmiapp.RecipesFragment"
-        android:label="Przepisy"
-        tools:layout="@layout/fragment_recipes" />
 </navigation>
