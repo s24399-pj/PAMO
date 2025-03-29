@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="pl.pjwstk.bmiapp.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/bmiCalculatorFragment"
+        android:name="pl.pjwstk.bmiapp.BmiCalculatorFragment"
+        android:label="BMI"
+        tools:layout="@layout/fragment_bmi_calculator" />
+
+    <fragment
+        android:id="@+id/calorieCalculatorFragment"
+        android:name="pl.pjwstk.bmiapp.CalorieCalculatorFragment"
+        android:label="Kalorie"
+        tools:layout="@layout/fragment_calorie_calculator" />
+
+    <fragment
+        android:id="@+id/recipesFragment"
+        android:name="pl.pjwstk.bmiapp.RecipesFragment"
+        android:label="Przepisy"
+        tools:layout="@layout/fragment_recipes" />
+</navigation>
