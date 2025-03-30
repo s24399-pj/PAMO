@@ -1,4 +1,4 @@
-package pl.pjwstk.bmiapp;
+package pl.pjwstk.bmiapp.ui.fragments.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
+
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
+import pl.pjwstk.bmiapp.R;
 
 public class HomeFragment extends BaseFragment {
 

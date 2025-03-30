@@ -1,4 +1,4 @@
-package pl.pjwstk.bmiapp;
+package pl.pjwstk.bmiapp.ui.fragments.calculators;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,6 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
+import pl.pjwstk.bmiapp.data.calculators.CalorieCalculator;
+import pl.pjwstk.bmiapp.R;
+import pl.pjwstk.bmiapp.data.models.Recipe;
+import pl.pjwstk.bmiapp.data.repositories.RecipeRepository;
 
 public class CalorieCalculatorFragment extends BaseFragment {
 

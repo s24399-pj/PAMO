@@ -1,26 +1,22 @@
-package pl.pjwstk.bmiapp;
+package pl.pjwstk.bmiapp.data.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Repozytorium przepisów - zarządzanie i dostarczanie przepisów kulinarnych
- */
+import pl.pjwstk.bmiapp.data.models.Recipe;
+
+
 public class RecipeRepository {
 
-    // Singleton
     private static RecipeRepository instance;
 
-    // Lista wszystkich przepisów
     private final List<Recipe> allRecipes;
 
-    // Prywatny konstruktor do inicjalizacji danych
     private RecipeRepository() {
         allRecipes = initializeRecipes();
     }
 
-    // Metoda dostępu do singletona
     public static RecipeRepository getInstance() {
         if (instance == null) {
             instance = new RecipeRepository();
@@ -28,11 +24,9 @@ public class RecipeRepository {
         return instance;
     }
 
-    // Inicjalizacja przepisów
     private List<Recipe> initializeRecipes() {
         List<Recipe> recipes = new ArrayList<>();
 
-        // STANDARDOWA DIETA - NISKOKALORYCZNA
         recipes.add(Recipe.builder()
                 .title("Sałatka z grillowanym kurczakiem")
                 .calories(450)
@@ -54,7 +48,6 @@ public class RecipeRepository {
                 .isLowCalorie(true)
                 .build());
 
-        // STANDARDOWA DIETA - NISKOKALORYCZNA #2
         recipes.add(Recipe.builder()
                 .title("Zupa krem z pomidorów")
                 .calories(320)
@@ -79,7 +72,6 @@ public class RecipeRepository {
                 .isLowCalorie(true)
                 .build());
 
-        // STANDARDOWA DIETA - WYSOKOKALORYCZNA
         recipes.add(Recipe.builder()
                 .title("Makaron pełnoziarnisty z sosem bolońskim")
                 .calories(850)
@@ -105,7 +97,6 @@ public class RecipeRepository {
                 .isLowCalorie(false)
                 .build());
 
-        // STANDARDOWA DIETA - WYSOKOKALORYCZNA #2
         recipes.add(Recipe.builder()
                 .title("Kurczak z ryżem i warzywami")
                 .calories(780)
@@ -131,7 +122,6 @@ public class RecipeRepository {
                 .isLowCalorie(false)
                 .build());
 
-        // WEGETARIAŃSKA DIETA - NISKOKALORYCZNA
         recipes.add(Recipe.builder()
                 .title("Sałatka grecka")
                 .calories(380)
@@ -154,7 +144,6 @@ public class RecipeRepository {
                 .isLowCalorie(true)
                 .build());
 
-        // WEGETARIAŃSKA DIETA - NISKOKALORYCZNA #2
         recipes.add(Recipe.builder()
                 .title("Zupa krem z dyni")
                 .calories(260)
@@ -205,7 +194,6 @@ public class RecipeRepository {
                 .isLowCalorie(false)
                 .build());
 
-        // WEGETARIAŃSKA DIETA - WYSOKOKALORYCZNA #2
         recipes.add(Recipe.builder()
                 .title("Makaron z sosem serowym")
                 .calories(810)
@@ -228,7 +216,6 @@ public class RecipeRepository {
                 .isLowCalorie(false)
                 .build());
 
-        // NISKOWĘGLOWODANOWA DIETA - NISKOKALORYCZNA
         recipes.add(Recipe.builder()
                 .title("Jajecznica z warzywami")
                 .calories(350)

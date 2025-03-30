@@ -1,4 +1,4 @@
-package pl.pjwstk.bmiapp;
+package pl.pjwstk.bmiapp.ui.fragments.recipes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import pl.pjwstk.bmiapp.R;
+import pl.pjwstk.bmiapp.data.models.Recipe;
 
 public class RecipesFragment extends Fragment {
 

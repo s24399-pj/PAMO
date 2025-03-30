@@ -1,4 +1,4 @@
-package pl.pjwstk.bmiapp;
+package pl.pjwstk.bmiapp.ui.fragments.calculators;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import pl.pjwstk.bmiapp.R;
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
 
 public class BmiCalculatorFragment extends BaseFragment {
 

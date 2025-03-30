@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:fitsSystemWindows="true"
-    tools:context=".BmiCalculatorFragment">
+    tools:context=".ui.fragments.calculators.BmiCalculatorFragment">
 
     <TextView
         android:id="@+id/titleTextView"

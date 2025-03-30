@@ -9,7 +9,7 @@
     android:scrollbars="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:fitsSystemWindows="true"
-    tools:context=".CalorieCalculatorFragment">
+    tools:context=".ui.fragments.calculators.CalorieCalculatorFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
