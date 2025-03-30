@@ -19,11 +19,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
-public class CalorieCalculatorFragment extends Fragment {
+public class CalorieCalculatorFragment extends BaseFragment {
 
     private EditText weightEditText, heightEditText, ageEditText;
     private RadioGroup genderRadioGroup;
@@ -59,6 +58,21 @@ public class CalorieCalculatorFragment extends Fragment {
         // Ustawienie nasłuchiwacza zdarzeń dla przycisku
         Button calculateButton = view.findViewById(R.id.calculateCaloriesButton);
         calculateButton.setOnClickListener(v -> calculateCalories());
+    }
+
+    @Override
+    protected void fixLayout() {
+        super.fixLayout();
+
+        // Dodatkowe dostosowanie layoutu, jeśli potrzebne
+        if (rootView != null) {
+            TextView titleView = rootView.findViewById(R.id.titleTextView);
+            if (titleView != null) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleView.getLayoutParams();
+                params.topMargin = (int) (16 * getResources().getDisplayMetrics().density); // 16dp
+                titleView.setLayoutParams(params);
+            }
+        }
     }
 
     /**

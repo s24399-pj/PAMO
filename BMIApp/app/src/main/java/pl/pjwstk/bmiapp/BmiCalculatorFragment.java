@@ -11,9 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-public class BmiCalculatorFragment extends Fragment {
+public class BmiCalculatorFragment extends BaseFragment {
 
     // Komponenty UI
     private EditText weightEditText, heightEditText;
@@ -36,6 +35,21 @@ public class BmiCalculatorFragment extends Fragment {
         // Ustawienie nasłuchiwacza zdarzeń
         Button calculateButton = view.findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener(v -> calculateBMI());
+    }
+
+    @Override
+    protected void fixLayout() {
+        super.fixLayout();
+
+        // Specyficzne dostosowania dla tego fragmentu
+        if (rootView != null) {
+            TextView titleView = rootView.findViewById(R.id.titleTextView);
+            if (titleView != null) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleView.getLayoutParams();
+                params.topMargin = (int) (32 * getResources().getDisplayMetrics().density); // 32dp
+                titleView.setLayoutParams(params);
+            }
+        }
     }
 
     /**
