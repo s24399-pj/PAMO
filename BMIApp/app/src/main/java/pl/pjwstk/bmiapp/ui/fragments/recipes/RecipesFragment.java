@@ -21,7 +21,6 @@ public class RecipesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recipes, container, false);
     }
 
@@ -31,13 +30,9 @@ public class RecipesFragment extends Fragment {
 
         recipesContainer = view.findViewById(R.id.recipesContainer);
 
-        // Załadowanie przykładowych przepisów
         loadRecipes();
     }
 
-    /**
-     * Załadowanie przepisów do UI
-     */
     private void loadRecipes() {
         Recipe[] recipes = Recipe.getSampleRecipes();
 
@@ -47,21 +42,15 @@ public class RecipesFragment extends Fragment {
         }
     }
 
-    /**
-     * Tworzenie widoku dla pojedynczego przepisu
-     */
     private View createRecipeView(Recipe recipe) {
         View recipeView = getLayoutInflater().inflate(R.layout.item_recipe, recipesContainer, false);
 
-        // Ustawienie tytułu przepisu
         TextView titleTextView = recipeView.findViewById(R.id.recipeTitleTextView);
         titleTextView.setText(recipe.getTitle());
 
-        // Ustawienie kalorii
         TextView caloriesTextView = recipeView.findViewById(R.id.recipeCaloriesTextView);
         caloriesTextView.setText(String.format(getString(R.string.recipe_calories), recipe.getCalories()));
 
-        // Ustawienie składników
         TextView ingredientsTextView = recipeView.findViewById(R.id.recipeIngredientsTextView);
         StringBuilder ingredientsBuilder = new StringBuilder();
         for (String ingredient : recipe.getIngredients()) {
@@ -69,7 +58,6 @@ public class RecipesFragment extends Fragment {
         }
         ingredientsTextView.setText(ingredientsBuilder.toString());
 
-        // Ustawienie instrukcji
         TextView instructionsTextView = recipeView.findViewById(R.id.recipeInstructionsTextView);
         instructionsTextView.setText(recipe.getInstructions());
 

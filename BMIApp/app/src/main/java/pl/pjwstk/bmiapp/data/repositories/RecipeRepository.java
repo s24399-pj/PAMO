@@ -167,7 +167,6 @@ public class RecipeRepository {
                 .isLowCalorie(true)
                 .build());
 
-        // WEGETARIAŃSKA DIETA - WYSOKOKALORYCZNA
         recipes.add(Recipe.builder()
                 .title("Risotto z grzybami")
                 .calories(720)
@@ -237,7 +236,6 @@ public class RecipeRepository {
                 .isLowCalorie(true)
                 .build());
 
-        // NISKOWĘGLOWODANOWA DIETA - NISKOKALORYCZNA #2
         recipes.add(Recipe.builder()
                 .title("Sałatka z tuńczykiem")
                 .calories(380)
@@ -260,7 +258,6 @@ public class RecipeRepository {
                 .isLowCalorie(true)
                 .build());
 
-        // NISKOWĘGLOWODANOWA DIETA - WYSOKOKALORYCZNA
         recipes.add(Recipe.builder()
                 .title("Stek z awokado")
                 .calories(780)
@@ -283,7 +280,6 @@ public class RecipeRepository {
                 .isLowCalorie(false)
                 .build());
 
-        // NISKOWĘGLOWODANOWA DIETA - WYSOKOKALORYCZNA #2
         recipes.add(Recipe.builder()
                 .title("Kotlety jajeczne z boczkiem")
                 .calories(650)
@@ -308,19 +304,16 @@ public class RecipeRepository {
         return recipes;
     }
 
-    // Metoda zwracająca wszystkie przepisy
     public List<Recipe> getAllRecipes() {
         return new ArrayList<>(allRecipes);
     }
 
-    // Metoda zwracająca przepisy dla określonego typu diety
     public List<Recipe> getRecipesForDiet(int dietType) {
         return allRecipes.stream()
                 .filter(recipe -> recipe.getDietType() == dietType)
                 .collect(Collectors.toList());
     }
 
-    // Metoda zwracająca przepisy dla określonego typu diety i kaloryczności
     public List<Recipe> getRecipesForDietAndCalories(int dietType, double calories) {
         boolean needLowCalorie = calories < 2000; // Próg kaloryczny
 

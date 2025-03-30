@@ -18,7 +18,6 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -26,7 +25,6 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Znajdź przyciski i ustaw na nich listenery z akcjami
         view.findViewById(R.id.btnBmiCalculator).setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_bmiCalculatorFragment));
 
@@ -36,10 +34,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void fixLayout() {
-        // Wywołaj bazową implementację
         super.fixLayout();
 
-        // Dodaj własną logikę naprawy layoutu
         if (rootView != null) {
             View logoView = rootView.findViewById(R.id.logoImageView);
             if (logoView != null) {

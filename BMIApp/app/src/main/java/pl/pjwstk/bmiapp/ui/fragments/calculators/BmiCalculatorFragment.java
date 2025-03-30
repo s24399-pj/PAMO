@@ -17,14 +17,12 @@ import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
 
 public class BmiCalculatorFragment extends BaseFragment {
 
-    // Komponenty UI
     private EditText weightEditText, heightEditText;
     private TextView resultTextView, categoryTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bmi_calculator, container, false);
     }
 
@@ -32,10 +30,7 @@ public class BmiCalculatorFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inicjalizacja komponentów
         initViews(view);
-
-        // Ustawienie nasłuchiwacza zdarzeń
         Button calculateButton = view.findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener(v -> calculateBMI());
     }
@@ -44,20 +39,16 @@ public class BmiCalculatorFragment extends BaseFragment {
     protected void fixLayout() {
         super.fixLayout();
 
-        // Specyficzne dostosowania dla tego fragmentu
         if (rootView != null) {
             TextView titleView = rootView.findViewById(R.id.titleTextView);
             if (titleView != null) {
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleView.getLayoutParams();
-                params.topMargin = (int) (32 * getResources().getDisplayMetrics().density); // 32dp
+                params.topMargin = (int) (32 * getResources().getDisplayMetrics().density);
                 titleView.setLayoutParams(params);
             }
         }
     }
 
-    /**
-     * Inicjalizacja widoków
-     */
     private void initViews(View view) {
         weightEditText = view.findViewById(R.id.weightEditText);
         heightEditText = view.findViewById(R.id.heightEditText);
@@ -65,27 +56,19 @@ public class BmiCalculatorFragment extends BaseFragment {
         categoryTextView = view.findViewById(R.id.categoryTextView);
     }
 
-    /**
-     * Obliczanie BMI
-     */
     private void calculateBMI() {
         String weightStr = weightEditText.getText().toString();
         String heightStr = heightEditText.getText().toString();
 
-        // Walidacja danych wejściowych
         if (!validateInput(weightStr, heightStr)) {
             return;
         }
 
         try {
-            // Konwersja danych
             float weight = Float.parseFloat(weightStr);
-            float height = Float.parseFloat(heightStr) / 100; // Konwersja cm na metry
+            float height = Float.parseFloat(heightStr) / 100;
 
-            // Obliczanie BMI
             float bmi = weight / (height * height);
-
-            // Wyświetlanie wyniku
             displayResult(bmi);
 
         } catch (NumberFormatException e) {
@@ -93,9 +76,6 @@ public class BmiCalculatorFragment extends BaseFragment {
         }
     }
 
-    /**
-     * Walidacja danych wejściowych
-     */
     private boolean validateInput(String weightStr, String heightStr) {
         if (weightStr.isEmpty() || heightStr.isEmpty()) {
             Toast.makeText(getContext(), R.string.enter_values, Toast.LENGTH_SHORT).show();
@@ -118,20 +98,11 @@ public class BmiCalculatorFragment extends BaseFragment {
         }
     }
 
-    /**
-     * Wyświetlanie wyników BMI
-     */
     private void displayResult(float bmi) {
-        // Wyświetlanie wyniku BMI
         resultTextView.setText(String.format(getString(R.string.your_bmi), bmi));
-
-        // Określanie i wyświetlanie kategorii BMI
         categoryTextView.setText(getBmiCategory(bmi));
     }
 
-    /**
-     * Określenie kategorii BMI
-     */
     private String getBmiCategory(float bmi) {
         if (bmi < 16) return "Wygłodzenie";
         if (bmi < 17) return "Wychudzenie";

@@ -28,12 +28,10 @@ public abstract class BaseFragment extends Fragment {
         fixLayout();
     }
 
-    // Metoda publiczna, która może być wywoływana z zewnątrz
     public void refreshLayout() {
         fixLayout();
     }
 
-    // Właściwa implementacja pozostaje chroniona
     protected void fixLayout() {
         if (rootView != null) {
             rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
