@@ -1,3 +1,3 @@
 # PAMO - Aleksander Opałka - s24399
 
-Każdy folder ma swoje własne readme.md
+Zapraszam do BMIApp aby zobaczyć bardziej rozbudowane Readme.md
