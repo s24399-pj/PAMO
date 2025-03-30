@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wybierz rodzaj diety"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/dietRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/standardDietRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dieta standardowa"
+            android:checked="true"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioButton
+            android:id="@+id/vegetarianDietRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dieta wegetariańska"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioButton
+            android:id="@+id/lowCarbDietRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dieta niskowęglowodanowa"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/showRecipesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pokaż przepisy"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

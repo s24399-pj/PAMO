@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kalkulator BMI</string>
+    <string name="app_name">FitApp</string>
     <string name="bmi_calculator">Kalkulator BMI</string>
     <string name="weight_hint">Waga (kg)</string>
     <string name="height_hint">Wzrost (cm)</string>
@@ -15,4 +15,37 @@
     <string name="action_settings">Ustawienia</string>
     <string name="first_fragment_label">Strona Główna</string>
     <string name="second_fragment_label">Wyniki BMI</string>
+
+    <string name="app_logo">Logo aplikacji</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_bmi">BMI</string>
+    <string name="menu_calories">Kalorie</string>
+    <string name="menu_recipes">Przepisy</string>
+
+    <string name="calculate_calories">Oblicz kalorie</string>
+    <string name="daily_calorie_needs">Dzienne zapotrzebowanie kaloryczne</string>
+    <string name="age">Wiek</string>
+    <string name="age_hint">Wiek (lata)</string>
+    <string name="male">Mężczyzna</string>
+    <string name="female">Kobieta</string>
+    <string name="gender">Płeć</string>
+    <string name="activity_level">Poziom aktywności</string>
+    <string name="select_activity_level">Wybierz poziom aktywności</string>
+    <string name="calorie_result">Twoje dzienne zapotrzebowanie: %1$.0f kcal</string>
+
+    <string name="recipe_title">Rekomendowane przepisy</string>
+    <string name="recipe_ingredients">Składniki:</string>
+    <string name="recipe_instructions">Przygotowanie:</string>
+    <string name="recipe_calories">Kalorie: %1$d kcal</string>
+
+    <string name="welcome_title">Witaj w aplikacji fitness!</string>
+    <string name="welcome_text">Wybierz jedną z dostępnych opcji z menu, aby rozpocząć.</string>
+
+    <string-array name="activity_levels">
+        <item>Siedzący tryb życia (brak aktywności)</item>
+        <item>Lekka aktywność (1-3 dni/tydzień)</item>
+        <item>Umiarkowana aktywność (3-5 dni/tydzień)</item>
+        <item>Wysoka aktywność (6-7 dni/tydzień)</item>
+        <item>Bardzo wysoka aktywność (praca fizyczna/sporty)</item>
+    </string-array>
 </resources>

@@ -1,40 +1,68 @@
-package pl.pjwstk.bmiapp;
+package pl.pjwstk.bmiapp.ui.fragments.calculators;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-public class MainActivity extends AppCompatActivity {
+import pl.pjwstk.bmiapp.R;
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
+
+public class BmiCalculatorFragment extends BaseFragment {
 
     // Komponenty UI
     private EditText weightEditText, heightEditText;
     private TextView resultTextView, categoryTextView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_bmi_calculator, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Inicjalizacja komponentów
-        initViews();
+        initViews(view);
 
         // Ustawienie nasłuchiwacza zdarzeń
-        Button calculateButton = findViewById(R.id.calculateButton);
+        Button calculateButton = view.findViewById(R.id.calculateButton);
         calculateButton.setOnClickListener(v -> calculateBMI());
+    }
+
+    @Override
+    protected void fixLayout() {
+        super.fixLayout();
+
+        // Specyficzne dostosowania dla tego fragmentu
+        if (rootView != null) {
+            TextView titleView = rootView.findViewById(R.id.titleTextView);
+            if (titleView != null) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleView.getLayoutParams();
+                params.topMargin = (int) (32 * getResources().getDisplayMetrics().density); // 32dp
+                titleView.setLayoutParams(params);
+            }
+        }
     }
 
     /**
      * Inicjalizacja widoków
      */
-    private void initViews() {
-        weightEditText = findViewById(R.id.weightEditText);
-        heightEditText = findViewById(R.id.heightEditText);
-        resultTextView = findViewById(R.id.resultTextView);
-        categoryTextView = findViewById(R.id.categoryTextView);
+    private void initViews(View view) {
+        weightEditText = view.findViewById(R.id.weightEditText);
+        heightEditText = view.findViewById(R.id.heightEditText);
+        resultTextView = view.findViewById(R.id.resultTextView);
+        categoryTextView = view.findViewById(R.id.categoryTextView);
     }
 
     /**
@@ -61,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             displayResult(bmi);
 
         } catch (NumberFormatException e) {
-            Toast.makeText(this, R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -70,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean validateInput(String weightStr, String heightStr) {
         if (weightStr.isEmpty() || heightStr.isEmpty()) {
-            Toast.makeText(this, R.string.enter_values, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.enter_values, Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -79,13 +107,13 @@ public class MainActivity extends AppCompatActivity {
             float height = Float.parseFloat(heightStr);
 
             if (weight <= 0 || height <= 0) {
-                Toast.makeText(this, R.string.enter_valid_values, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.enter_valid_values, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             return true;
         } catch (NumberFormatException e) {
-            Toast.makeText(this, R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
             return false;
         }
     }
