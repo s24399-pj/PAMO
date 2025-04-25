@@ -9,21 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
-import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import pl.pjwstk.bmiapp.R;
 import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
 import pl.pjwstk.bmiapp.utils.NavigationHelper;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     NavController navController;
     BottomNavigationView bottomNav;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             ).build();
 
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig);
-            bottomNav.setOnNavigationItemSelectedListener(this);
+            bottomNav.setOnItemSelectedListener(this);
             adjustFragmentContainerMargins();
             setupDestinationChangedListener(navHostFragment);
         }
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             if (!isNavigatingFromBottomNav) {
                 int destId = destination.getId();
-                bottomNav.setOnNavigationItemSelectedListener(null);
+                bottomNav.setOnItemSelectedListener(null);
 
                 if (destId == R.id.homeFragment) {
                     bottomNav.setSelectedItemId(R.id.homeFragment);
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     bottomNav.setSelectedItemId(R.id.calorieCalculatorFragment);
                 }
 
-                bottomNav.setOnNavigationItemSelectedListener(this);
+                bottomNav.setOnItemSelectedListener(this);
             }
         });
     }

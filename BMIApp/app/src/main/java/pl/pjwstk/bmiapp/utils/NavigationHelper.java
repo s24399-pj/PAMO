@@ -12,7 +12,7 @@ public final class NavigationHelper {
     public boolean handleNavigation(int itemId, NavController navController) {
         NavOptions navOptions = new NavOptions.Builder()
                 .setLaunchSingleTop(true)
-                .setPopUpTo(navController.getGraph().getStartDestination(), false)
+                .setPopUpTo(navController.getGraph().getStartDestinationId(), false)
                 .build();
 
         if (itemId == R.id.homeFragment) {

@@ -21,3 +21,20 @@ Aplikacja pozwala użytkownikowi wprowadzić wagę (w kg) oraz wzrost (w m) i na
 ![img_4.png](img_4.png)
 ![img_5.png](img_5.png)
 ![img_6.png](img_6.png)
+
+### Zjazd 3 - dodanie wyników statycznej analizy
+Rezultaty można znaleść w katalogu staticAnalysis -> before & after
+
+#### Junit screenshot:
+
+![img_7.png](img_7.png)
+
+#### Espresso screenshot:
+
+![img_8.png](img_8.png)
+
+#### Monkey screenshot:
+
+pełny log można znalesc w monkeyresult.log
+
+![img_9.png](img_9.png)
