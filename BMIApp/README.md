@@ -23,7 +23,13 @@ Aplikacja pozwala użytkownikowi wprowadzić wagę (w kg) oraz wzrost (w m) i na
 ![img_6.png](img_6.png)
 
 ### Zjazd 3 - dodanie wyników statycznej analizy
-Rezultaty można znaleść w katalogu staticAnalysis -> before & after
+Rezultaty w formie html można znaleść w katalogu staticAnalysis -> before & after
+
+StaticAnalysis/before
+![img_11.png](img_11.png)
+
+StaticAnalysis/after
+![img_10.png](img_10.png)
 
 #### Junit screenshot:
 
