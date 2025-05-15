@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
+
 
 android {
     namespace 'pl.pjwstk.bmiapp'
@@ -38,6 +40,9 @@ android {
             }
         }
     }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
 }
 
 dependencies {
@@ -46,10 +51,12 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
+    implementation libs.core.ktx
 
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.12.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
