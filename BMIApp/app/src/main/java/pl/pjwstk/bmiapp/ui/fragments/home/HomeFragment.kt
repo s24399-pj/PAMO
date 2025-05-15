@@ -1,47 +1,46 @@
-package pl.pjwstk.bmiapp.ui.fragments.home;
+package pl.pjwstk.bmiapp.ui.fragments.home
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.Navigation
+import pl.pjwstk.bmiapp.R
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.navigation.Navigation;
+class HomeFragment : BaseFragment() {
 
-import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
-import pl.pjwstk.bmiapp.R;
-
-public class HomeFragment extends BaseFragment {
-
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById(R.id.btnBmiCalculator).setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_bmiCalculatorFragment));
+        view.findViewById<View>(R.id.btnBmiCalculator).setOnClickListener { v ->
+            Navigation.findNavController(v)
+                .navigate(R.id.action_homeFragment_to_bmiCalculatorFragment)
+        }
 
-        view.findViewById(R.id.btnCalorieCalculator).setOnClickListener(v ->
-                Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_calorieCalculatorFragment));
+        view.findViewById<View>(R.id.btnCalorieCalculator).setOnClickListener { v ->
+            Navigation.findNavController(v)
+                .navigate(R.id.action_homeFragment_to_calorieCalculatorFragment)
+        }
     }
 
-    @Override
-    protected void fixLayout() {
-        super.fixLayout();
+    override fun fixLayout() {
+        super.fixLayout()
 
-        if (rootView != null) {
-            View logoView = rootView.findViewById(R.id.logoImageView);
-            if (logoView != null) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) logoView.getLayoutParams();
-                params.topMargin = (int) (48 * getResources().getDisplayMetrics().density); // 48dp
-                logoView.setLayoutParams(params);
+        rootView?.let { root ->
+            val logoView = root.findViewById<View>(R.id.logoImageView)
+            logoView?.let {
+                val params = it.layoutParams as ViewGroup.MarginLayoutParams
+                params.topMargin = (48 * resources.displayMetrics.density).toInt() // 48dp
+                it.layoutParams = params
             }
         }
     }

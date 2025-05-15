@@ -1,116 +1,116 @@
-package pl.pjwstk.bmiapp.ui.fragments.calculators;
+package pl.pjwstk.bmiapp.ui.fragments.calculators
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import pl.pjwstk.bmiapp.R
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+class BmiCalculatorFragment : BaseFragment() {
 
-import pl.pjwstk.bmiapp.R;
-import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
+    private lateinit var weightEditText: EditText
+    private lateinit var heightEditText: EditText
+    private lateinit var resultTextView: TextView
+    private lateinit var categoryTextView: TextView
 
-public class BmiCalculatorFragment extends BaseFragment {
-
-    private EditText weightEditText, heightEditText;
-    private TextView resultTextView, categoryTextView;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bmi_calculator, container, false);
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_bmi_calculator, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        initViews(view);
-        Button calculateButton = view.findViewById(R.id.calculateButton);
-        calculateButton.setOnClickListener(v -> calculateBMI());
+        initViews(view)
+        val calculateButton = view.findViewById<Button>(R.id.calculateButton)
+        calculateButton.setOnClickListener { calculateBMI() }
     }
 
-    @Override
-    protected void fixLayout() {
-        super.fixLayout();
+    override fun fixLayout() {
+        super.fixLayout()
 
-        if (rootView != null) {
-            TextView titleView = rootView.findViewById(R.id.titleTextView);
-            if (titleView != null) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleView.getLayoutParams();
-                params.topMargin = (int) (32 * getResources().getDisplayMetrics().density);
-                titleView.setLayoutParams(params);
+        rootView?.let { root ->
+            val titleView = root.findViewById<TextView>(R.id.titleTextView)
+            titleView?.let {
+                val params = it.layoutParams as ViewGroup.MarginLayoutParams
+                params.topMargin = (32 * resources.displayMetrics.density).toInt()
+                it.layoutParams = params
             }
         }
     }
 
-    private void initViews(View view) {
-        weightEditText = view.findViewById(R.id.weightEditText);
-        heightEditText = view.findViewById(R.id.heightEditText);
-        resultTextView = view.findViewById(R.id.resultTextView);
-        categoryTextView = view.findViewById(R.id.categoryTextView);
+    private fun initViews(view: View) {
+        weightEditText = view.findViewById(R.id.weightEditText)
+        heightEditText = view.findViewById(R.id.heightEditText)
+        resultTextView = view.findViewById(R.id.resultTextView)
+        categoryTextView = view.findViewById(R.id.categoryTextView)
     }
 
-    private void calculateBMI() {
-        String weightStr = weightEditText.getText().toString();
-        String heightStr = heightEditText.getText().toString();
+    private fun calculateBMI() {
+        val weightStr = weightEditText.text.toString()
+        val heightStr = heightEditText.text.toString()
 
         if (!validateInput(weightStr, heightStr)) {
-            return;
+            return
         }
 
         try {
-            float weight = Float.parseFloat(weightStr);
-            float height = Float.parseFloat(heightStr) / 100;
+            val weight = weightStr.toFloat()
+            val height = heightStr.toFloat() / 100
 
-            float bmi = weight / (height * height);
-            displayResult(bmi);
+            val bmi = weight / (height * height)
+            displayResult(bmi)
 
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
+        } catch (e: NumberFormatException) {
+            Toast.makeText(context, R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private boolean validateInput(String weightStr, String heightStr) {
+    private fun validateInput(weightStr: String, heightStr: String): Boolean {
         if (weightStr.isEmpty() || heightStr.isEmpty()) {
-            Toast.makeText(getContext(), R.string.enter_values, Toast.LENGTH_SHORT).show();
-            return false;
+            Toast.makeText(context, R.string.enter_values, Toast.LENGTH_SHORT).show()
+            return false
         }
 
         try {
-            float weight = Float.parseFloat(weightStr);
-            float height = Float.parseFloat(heightStr);
+            val weight = weightStr.toFloat()
+            val height = heightStr.toFloat()
 
             if (weight <= 0 || height <= 0) {
-                Toast.makeText(getContext(), R.string.enter_valid_values, Toast.LENGTH_SHORT).show();
-                return false;
+                Toast.makeText(context, R.string.enter_valid_values, Toast.LENGTH_SHORT).show()
+                return false
             }
 
-            return true;
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
-            return false;
+            return true
+        } catch (e: NumberFormatException) {
+            Toast.makeText(context, R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 
-    private void displayResult(float bmi) {
-        resultTextView.setText(String.format(getString(R.string.your_bmi), bmi));
-        categoryTextView.setText(getBmiCategory(bmi));
+    private fun displayResult(bmi: Float) {
+        resultTextView.text = String.format(getString(R.string.your_bmi), bmi)
+        categoryTextView.text = getBmiCategory(bmi)
     }
 
-    private String getBmiCategory(float bmi) {
-        if (bmi < 16) return "Wygłodzenie";
-        if (bmi < 17) return "Wychudzenie";
-        if (bmi < 18.5) return "Niedowaga";
-        if (bmi < 25) return "Waga prawidłowa";
-        if (bmi < 30) return "Nadwaga";
-        if (bmi < 35) return "Otyłość I stopnia";
-        if (bmi < 40) return "Otyłość II stopnia";
-        return "Otyłość III stopnia";
+    private fun getBmiCategory(bmi: Float): String {
+        return when {
+            bmi < 16 -> "Wygłodzenie"
+            bmi < 17 -> "Wychudzenie"
+            bmi < 18.5 -> "Niedowaga"
+            bmi < 25 -> "Waga prawidłowa"
+            bmi < 30 -> "Nadwaga"
+            bmi < 35 -> "Otyłość I stopnia"
+            bmi < 40 -> "Otyłość II stopnia"
+            else -> "Otyłość III stopnia"
+        }
     }
 }

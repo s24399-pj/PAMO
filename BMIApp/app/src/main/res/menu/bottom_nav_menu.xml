@@ -16,4 +16,9 @@
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Kalorie" />
 
+    <item
+        android:id="@+id/shoppingListFragment"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Zakupy" />
+
 </menu>

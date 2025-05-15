@@ -1,35 +1,27 @@
-package pl.pjwstk.bmiapp.data.models;
+package pl.pjwstk.bmiapp.data.models
 
-import java.util.List;
+import pl.pjwstk.bmiapp.data.repositories.RecipeRepository
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import pl.pjwstk.bmiapp.data.repositories.RecipeRepository;
+data class Recipe(
+    val title: String = "",
+    val calories: Int = 0,
+    val ingredients: List<String> = emptyList(),
+    val instructions: String = "",
+    val dietType: Int = DIET_STANDARD,
+    val isLowCalorie: Boolean = false
+) {
+    companion object {
+        const val DIET_STANDARD = 0
+        const val DIET_VEGETARIAN = 1
+        const val DIET_LOW_CARB = 2
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Recipe {
-    public static final int DIET_STANDARD = 0;
-    public static final int DIET_VEGETARIAN = 1;
-    public static final int DIET_LOW_CARB = 2;
-
-    private String title;
-    private int calories;
-    private List<String> ingredients;
-    private String instructions;
-    private int dietType;
-    private boolean isLowCalorie;
-
-    public static Recipe[] getSampleRecipes() {
-        List<Recipe> recipes = RecipeRepository.getInstance().getRecipesForDiet(DIET_STANDARD);
-        if (recipes.size() >= 2) {
-            return new Recipe[]{recipes.get(0), recipes.get(1)};
-        } else {
-            return new Recipe[0];
+        fun getSampleRecipes(): Array<Recipe> {
+            val recipes = RecipeRepository.getInstance().getRecipesForDiet(DIET_STANDARD)
+            return if (recipes.size >= 2) {
+                arrayOf(recipes[0], recipes[1])
+            } else {
+                emptyArray()
+            }
         }
     }
 }

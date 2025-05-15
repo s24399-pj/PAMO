@@ -1,57 +1,46 @@
-package pl.pjwstk.bmiapp.data.calculators;
+package pl.pjwstk.bmiapp.data.calculators
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+object CalorieCalculator {
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CalorieCalculator {
-
-    @Getter
-    public enum ActivityLevel {
+    enum class ActivityLevel(val multiplier: Double, val displayName: String) {
         SEDENTARY(1.2, "Siedzący tryb życia"),
         LIGHT(1.375, "Lekka aktywność"),
         MODERATE(1.55, "Umiarkowana aktywność"),
         HIGH(1.725, "Wysoka aktywność"),
         VERY_HIGH(1.9, "Bardzo wysoka aktywność");
 
-        private final double multiplier;
-        private final String displayName;
-
-        ActivityLevel(double multiplier, String displayName) {
-            this.multiplier = multiplier;
-            this.displayName = displayName;
-        }
-
-        public static ActivityLevel fromPosition(int position) {
-            if (position >= 0 && position < values().length) {
-                return values()[position];
+        companion object {
+            fun fromPosition(position: Int): ActivityLevel {
+                return if (position >= 0 && position < values().size) {
+                    values()[position]
+                } else {
+                    MODERATE
+                }
             }
-            return MODERATE;
         }
     }
 
-    public static double calculateCalories(double weight, double height, int age, boolean isMale, double activityLevel) {
-        double bmr;
+    fun calculateCalories(weight: Double, height: Double, age: Int, isMale: Boolean, activityLevel: Double): Double {
+        val bmr: Double
 
-        if (isMale) {
-            bmr = 66 + (13.7 * weight) + (5 * height) - (6.8 * age);
+        bmr = if (isMale) {
+            66 + (13.7 * weight) + (5 * height) - (6.8 * age)
         } else {
-            bmr = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age);
+            655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)
         }
 
-        return bmr * activityLevel;
+        return bmr * activityLevel
     }
 
-    public static double calculateCalories(double weight, double height, int age, boolean isMale, ActivityLevel activityLevel) {
-        return calculateCalories(weight, height, age, isMale, activityLevel.getMultiplier());
+    fun calculateCalories(weight: Double, height: Double, age: Int, isMale: Boolean, activityLevel: ActivityLevel): Double {
+        return calculateCalories(weight, height, age, isMale, activityLevel.multiplier)
     }
 
-    public static double getActivityMultiplier(int position) {
-        return ActivityLevel.fromPosition(position).getMultiplier();
+    fun getActivityMultiplier(position: Int): Double {
+        return ActivityLevel.fromPosition(position).multiplier
     }
 
-    public static String getActivityLevelName(int position) {
-        return ActivityLevel.fromPosition(position).getDisplayName();
+    fun getActivityLevelName(position: Int): String {
+        return ActivityLevel.fromPosition(position).displayName
     }
 }

@@ -1,238 +1,250 @@
-package pl.pjwstk.bmiapp.ui.fragments.calculators;
+package pl.pjwstk.bmiapp.ui.fragments.calculators
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.app.AlertDialog
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.ScrollView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import pl.pjwstk.bmiapp.R
+import pl.pjwstk.bmiapp.data.calculators.CalorieCalculator
+import pl.pjwstk.bmiapp.data.models.Recipe
+import pl.pjwstk.bmiapp.data.repositories.RecipeRepository
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+class CalorieCalculatorFragment : BaseFragment() {
 
-import java.util.List;
+    private lateinit var weightEditText: EditText
+    private lateinit var heightEditText: EditText
+    private lateinit var ageEditText: EditText
+    private lateinit var genderRadioGroup: RadioGroup
+    private lateinit var activityLevelSpinner: Spinner
+    private lateinit var resultTextView: TextView
+    private lateinit var recipesContainer: LinearLayout
+    private lateinit var scrollView: ScrollView
+    private var calculatedCalories: Double = 0.0
 
-import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
-import pl.pjwstk.bmiapp.data.calculators.CalorieCalculator;
-import pl.pjwstk.bmiapp.R;
-import pl.pjwstk.bmiapp.data.models.Recipe;
-import pl.pjwstk.bmiapp.data.repositories.RecipeRepository;
+    private lateinit var recipeRepository: RecipeRepository
 
-public class CalorieCalculatorFragment extends BaseFragment {
-
-    private EditText weightEditText, heightEditText, ageEditText;
-    private RadioGroup genderRadioGroup;
-    private Spinner activityLevelSpinner;
-    private TextView resultTextView;
-    private LinearLayout recipesContainer;
-    private ScrollView scrollView;
-    private double calculatedCalories = 0;
-
-    private RecipeRepository recipeRepository;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calorie_calculator, container, false);
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_calorie_calculator, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        initViews(view);
+        initViews(view)
 
-        recipeRepository = RecipeRepository.getInstance();
+        recipeRepository = RecipeRepository.getInstance()
 
-        setupActivityLevelSpinner();
+        setupActivityLevelSpinner()
 
-        Button calculateButton = view.findViewById(R.id.calculateCaloriesButton);
-        calculateButton.setOnClickListener(v -> calculateCalories());
+        val calculateButton = view.findViewById<Button>(R.id.calculateCaloriesButton)
+        calculateButton.setOnClickListener { calculateCalories() }
     }
 
-    @Override
-    protected void fixLayout() {
-        super.fixLayout();
+    override fun fixLayout() {
+        super.fixLayout()
 
-        if (rootView != null) {
-            TextView titleView = rootView.findViewById(R.id.titleTextView);
-            if (titleView != null) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleView.getLayoutParams();
-                params.topMargin = (int) (16 * getResources().getDisplayMetrics().density);
-                titleView.setLayoutParams(params);
+        rootView?.let { root ->
+            val titleView = root.findViewById<TextView>(R.id.titleTextView)
+            titleView?.let {
+                val params = it.layoutParams as ViewGroup.MarginLayoutParams
+                params.topMargin = (16 * resources.displayMetrics.density).toInt()
+                it.layoutParams = params
             }
         }
     }
 
-    private void initViews(View view) {
-        weightEditText = view.findViewById(R.id.weightEditText);
-        heightEditText = view.findViewById(R.id.heightEditText);
-        ageEditText = view.findViewById(R.id.ageEditText);
-        genderRadioGroup = view.findViewById(R.id.genderRadioGroup);
-        activityLevelSpinner = view.findViewById(R.id.activityLevelSpinner);
-        resultTextView = view.findViewById(R.id.calorieResultTextView);
-        recipesContainer = view.findViewById(R.id.recipesContainer);
-        scrollView = view.findViewById(R.id.calorieScrollView);
+    private fun initViews(view: View) {
+        weightEditText = view.findViewById(R.id.weightEditText)
+        heightEditText = view.findViewById(R.id.heightEditText)
+        ageEditText = view.findViewById(R.id.ageEditText)
+        genderRadioGroup = view.findViewById(R.id.genderRadioGroup)
+        activityLevelSpinner = view.findViewById(R.id.activityLevelSpinner)
+        resultTextView = view.findViewById(R.id.calorieResultTextView)
+        recipesContainer = view.findViewById(R.id.recipesContainer)
+        scrollView = view.findViewById(R.id.calorieScrollView)
     }
 
-    private void setupActivityLevelSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.activity_levels,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        activityLevelSpinner.setAdapter(adapter);
+    private fun setupActivityLevelSpinner() {
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.activity_levels,
+            android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        activityLevelSpinner.adapter = adapter
     }
 
-    private void calculateCalories() {
+    private fun calculateCalories() {
         if (!validateInputs()) {
-            return;
+            return
         }
 
         try {
-            double weight = Double.parseDouble(weightEditText.getText().toString());
-            double height = Double.parseDouble(heightEditText.getText().toString());
-            int age = Integer.parseInt(ageEditText.getText().toString());
+            val weight = weightEditText.text.toString().toDouble()
+            val height = heightEditText.text.toString().toDouble()
+            val age = ageEditText.text.toString().toInt()
 
-            boolean isMale = ((RadioButton) requireView().findViewById(
-                    genderRadioGroup.getCheckedRadioButtonId())).getText()
-                    .equals(getString(R.string.male));
+            val isMale = (requireView().findViewById<RadioButton>(
+                genderRadioGroup.checkedRadioButtonId
+            )).text == getString(R.string.male)
 
-            int activityPosition = activityLevelSpinner.getSelectedItemPosition();
-            double activityMultiplier = CalorieCalculator.getActivityMultiplier(activityPosition);
+            val activityPosition = activityLevelSpinner.selectedItemPosition
+            val activityMultiplier = CalorieCalculator.getActivityMultiplier(activityPosition)
 
             calculatedCalories = CalorieCalculator.calculateCalories(
-                    weight, height, age, isMale, activityMultiplier);
+                weight, height, age, isMale, activityMultiplier
+            )
 
-            resultTextView.setText(String.format(getString(R.string.calorie_result), calculatedCalories));
-            resultTextView.setVisibility(View.VISIBLE);
+            resultTextView.text =
+                String.format(getString(R.string.calorie_result), calculatedCalories)
+            resultTextView.visibility = View.VISIBLE
 
-            showDietSelectionDialog();
+            showDietSelectionDialog()
 
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
+        } catch (e: NumberFormatException) {
+            Toast.makeText(context, R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private void showDietSelectionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_diet_selection, null);
-        builder.setView(dialogView);
+    private fun showDietSelectionDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val dialogView = layoutInflater.inflate(R.layout.dialog_diet_selection, null)
+        builder.setView(dialogView)
 
-        Dialog dialog = builder.create();
+        val dialog = builder.create()
 
-        RadioGroup dietRadioGroup = dialogView.findViewById(R.id.dietRadioGroup);
-        Button showRecipesButton = dialogView.findViewById(R.id.showRecipesButton);
+        val dietRadioGroup = dialogView.findViewById<RadioGroup>(R.id.dietRadioGroup)
+        val showRecipesButton = dialogView.findViewById<Button>(R.id.showRecipesButton)
 
-        showRecipesButton.setOnClickListener(v -> {
-            int selectedId = dietRadioGroup.getCheckedRadioButtonId();
-            int dietType;
-
-            if (selectedId == R.id.vegetarianDietRadioButton) {
-                dietType = Recipe.DIET_VEGETARIAN;
-            } else if (selectedId == R.id.lowCarbDietRadioButton) {
-                dietType = Recipe.DIET_LOW_CARB;
-            } else {
-                dietType = Recipe.DIET_STANDARD;
+        showRecipesButton.setOnClickListener {
+            val selectedId = dietRadioGroup.checkedRadioButtonId
+            val dietType = when (selectedId) {
+                R.id.vegetarianDietRadioButton -> Recipe.DIET_VEGETARIAN
+                R.id.lowCarbDietRadioButton -> Recipe.DIET_LOW_CARB
+                else -> Recipe.DIET_STANDARD
             }
 
-            dialog.dismiss();
-            showRecipesForDiet(dietType);
-        });
+            dialog.dismiss()
+            showRecipesForDiet(dietType)
+        }
 
-        dialog.show();
+        dialog.show()
     }
 
-    private void showRecipesForDiet(int dietType) {
-        recipesContainer.removeAllViews();
+    private fun showRecipesForDiet(dietType: Int) {
+        recipesContainer.removeAllViews()
 
-        List<Recipe> recipes = recipeRepository.getRecipesForDietAndCalories(dietType, calculatedCalories);
+        val recipes = recipeRepository.getRecipesForDietAndCalories(dietType, calculatedCalories)
 
-        TextView headerTextView = new TextView(requireContext());
-        headerTextView.setText("Rekomendowane przepisy");
-        headerTextView.setTextSize(18);
-        headerTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        headerTextView.setPadding(0, 32, 0, 16);
-        recipesContainer.addView(headerTextView);
+        val headerTextView = TextView(requireContext()).apply {
+            text = "Rekomendowane przepisy"
+            textSize = 18f
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            setPadding(0, 32, 0, 16)
+        }
+        recipesContainer.addView(headerTextView)
 
         if (recipes.isEmpty()) {
-            TextView noRecipesTextView = new TextView(requireContext());
-            noRecipesTextView.setText("Brak przepisów pasujących do wybranej diety");
-            noRecipesTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            recipesContainer.addView(noRecipesTextView);
+            val noRecipesTextView = TextView(requireContext()).apply {
+                text = "Brak przepisów pasujących do wybranej diety"
+                textAlignment = View.TEXT_ALIGNMENT_CENTER
+            }
+            recipesContainer.addView(noRecipesTextView)
         } else {
-            for (Recipe recipe : recipes) {
-                View recipeView = createRecipeView(recipe);
-                recipesContainer.addView(recipeView);
+            for (recipe in recipes) {
+                val recipeView = createRecipeView(recipe)
+                recipesContainer.addView(recipeView)
             }
         }
 
-        scrollView.post(() -> scrollView.smoothScrollTo(0, resultTextView.getBottom()));
+        scrollView.post { scrollView.smoothScrollTo(0, resultTextView.bottom) }
     }
 
     /**
      * Tworzenie widoku dla pojedynczego przepisu
      */
-    private View createRecipeView(Recipe recipe) {
-        View recipeView = getLayoutInflater().inflate(R.layout.item_recipe, recipesContainer, false);
+    private fun createRecipeView(recipe: Recipe): View {
+        val recipeView = layoutInflater.inflate(R.layout.item_recipe, recipesContainer, false)
 
-        TextView titleTextView = recipeView.findViewById(R.id.recipeTitleTextView);
-        titleTextView.setText(recipe.getTitle());
+        val titleTextView = recipeView.findViewById<TextView>(R.id.recipeTitleTextView)
+        titleTextView.text = recipe.title
 
-        TextView caloriesTextView = recipeView.findViewById(R.id.recipeCaloriesTextView);
-        caloriesTextView.setText(String.format(getString(R.string.recipe_calories), recipe.getCalories()));
+        val caloriesTextView = recipeView.findViewById<TextView>(R.id.recipeCaloriesTextView)
+        caloriesTextView.text = String.format(getString(R.string.recipe_calories), recipe.calories)
 
-        TextView ingredientsTextView = recipeView.findViewById(R.id.recipeIngredientsTextView);
-        StringBuilder ingredientsBuilder = new StringBuilder();
-        for (String ingredient : recipe.getIngredients()) {
-            ingredientsBuilder.append("• ").append(ingredient).append("\n");
+        val ingredientsTextView = recipeView.findViewById<TextView>(R.id.recipeIngredientsTextView)
+        val ingredientsBuilder = StringBuilder()
+        for (ingredient in recipe.ingredients) {
+            ingredientsBuilder.append("• ").append(ingredient).append("\n")
         }
-        ingredientsTextView.setText(ingredientsBuilder.toString());
+        ingredientsTextView.text = ingredientsBuilder.toString()
 
-        TextView instructionsTextView = recipeView.findViewById(R.id.recipeInstructionsTextView);
-        instructionsTextView.setText(recipe.getInstructions());
+        val instructionsTextView =
+            recipeView.findViewById<TextView>(R.id.recipeInstructionsTextView)
+        instructionsTextView.text = recipe.instructions
 
-        return recipeView;
+        // Dodajemy tutaj przycisk do generowania listy zakupów
+        val generateShoppingListButton =
+            recipeView.findViewById<Button>(R.id.generateShoppingListButton)
+        generateShoppingListButton?.setOnClickListener {
+            val navController = androidx.navigation.Navigation.findNavController(
+                requireActivity(),
+                R.id.nav_host_fragment
+            )
+            val recipeIndex = Recipe.getSampleRecipes().indexOf(recipe)
+            pl.pjwstk.bmiapp.utils.NavigationHelper.navigateToShoppingList(
+                navController,
+                recipeIndex
+            )
+        }
+
+        return recipeView
     }
 
-    private boolean validateInputs() {
-        if (weightEditText.getText().toString().isEmpty() ||
-                heightEditText.getText().toString().isEmpty() ||
-                ageEditText.getText().toString().isEmpty()) {
-            Toast.makeText(getContext(), R.string.enter_values, Toast.LENGTH_SHORT).show();
-            return false;
+    private fun validateInputs(): Boolean {
+        if (weightEditText.text.toString().isEmpty() ||
+            heightEditText.text.toString().isEmpty() ||
+            ageEditText.text.toString().isEmpty()
+        ) {
+            Toast.makeText(context, R.string.enter_values, Toast.LENGTH_SHORT).show()
+            return false
         }
 
-        if (genderRadioGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(getContext(), "Wybierz płeć", Toast.LENGTH_SHORT).show();
-            return false;
+        if (genderRadioGroup.checkedRadioButtonId == -1) {
+            Toast.makeText(context, "Wybierz płeć", Toast.LENGTH_SHORT).show()
+            return false
         }
 
         try {
-            double weight = Double.parseDouble(weightEditText.getText().toString());
-            double height = Double.parseDouble(heightEditText.getText().toString());
-            int age = Integer.parseInt(ageEditText.getText().toString());
+            val weight = weightEditText.text.toString().toDouble()
+            val height = heightEditText.text.toString().toDouble()
+            val age = ageEditText.text.toString().toInt()
 
             if (weight <= 0 || height <= 0 || age <= 0 || age > 120) {
-                Toast.makeText(getContext(), R.string.enter_valid_values, Toast.LENGTH_SHORT).show();
-                return false;
+                Toast.makeText(context, R.string.enter_valid_values, Toast.LENGTH_SHORT).show()
+                return false
             }
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show();
-            return false;
+        } catch (e: NumberFormatException) {
+            Toast.makeText(context, R.string.enter_valid_numbers, Toast.LENGTH_SHORT).show()
+            return false
         }
 
-        return true;
+        return true
     }
 }

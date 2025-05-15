@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_calorieCalculatorFragment"
             app:destination="@id/calorieCalculatorFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
 
     <fragment
@@ -29,5 +32,16 @@
         android:name="pl.pjwstk.bmiapp.ui.fragments.calculators.CalorieCalculatorFragment"
         android:label="Kalorie"
         tools:layout="@layout/fragment_calorie_calculator" />
+
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="pl.pjwstk.bmiapp.ui.fragments.shopping.ShoppingListFragment"
+        android:label="Lista zakupów"
+        tools:layout="@layout/fragment_shopping_list">
+        <argument
+            android:name="recipeId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

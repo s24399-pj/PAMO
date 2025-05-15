@@ -1,114 +1,111 @@
-package pl.pjwstk.bmiapp.ui.activities;
+package pl.pjwstk.bmiapp.ui.activities
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
+import pl.pjwstk.bmiapp.R
+import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment
+import pl.pjwstk.bmiapp.utils.NavigationHelper
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+    private lateinit var navController: NavController
+    private lateinit var bottomNav: BottomNavigationView
+    private var isNavigatingFromBottomNav = false
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import pl.pjwstk.bmiapp.R;
-import pl.pjwstk.bmiapp.ui.fragments.base.BaseFragment;
-import pl.pjwstk.bmiapp.utils.NavigationHelper;
+    companion object {
+        private const val TAG = "MainActivity"
+    }
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-
-    NavController navController;
-    BottomNavigationView bottomNav;
-    static final String TAG = "MainActivity";
-    boolean isNavigatingFromBottomNav = false;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTheme(androidx.appcompat.R.style.Theme_AppCompat_Light_DarkActionBar);
-        setTitle("FitApp");
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(androidx.appcompat.R.style.Theme_AppCompat_Light_DarkActionBar)
+        title = "FitApp"
+        setContentView(R.layout.activity_main)
 
         try {
-            setupNavigation();
-        } catch (Exception e) {
-            Log.e(TAG, "Błąd podczas konfiguracji nawigacji", e);
+            setupNavigation()
+        } catch (e: Exception) {
+            Log.e(TAG, "Błąd podczas konfiguracji nawigacji", e)
         }
     }
 
-    private void setupNavigation() {
-        bottomNav = findViewById(R.id.bottomNavigationView);
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+    private fun setupNavigation() {
+        bottomNav = findViewById(R.id.bottomNavigationView)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
 
-        if (navHostFragment != null) {
-            navController = navHostFragment.getNavController();
+        navHostFragment?.let {
+            navController = it.navController
 
-            AppBarConfiguration appBarConfig = new AppBarConfiguration.Builder(
-                    R.id.homeFragment, R.id.bmiCalculatorFragment,
-                    R.id.calorieCalculatorFragment
-            ).build();
+            val appBarConfig = AppBarConfiguration.Builder(
+                R.id.homeFragment, R.id.bmiCalculatorFragment,
+                R.id.calorieCalculatorFragment
+            ).build()
 
-            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig);
-            bottomNav.setOnItemSelectedListener(this);
-            adjustFragmentContainerMargins();
-            setupDestinationChangedListener(navHostFragment);
+            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig)
+            bottomNav.setOnItemSelectedListener(this)
+            adjustFragmentContainerMargins()
+            setupDestinationChangedListener(it)
         }
     }
 
-    private void adjustFragmentContainerMargins() {
-        findViewById(R.id.nav_host_fragment).post(() -> {
-            ViewGroup.MarginLayoutParams layoutParams =
-                    (ViewGroup.MarginLayoutParams) findViewById(R.id.nav_host_fragment).getLayoutParams();
-            layoutParams.topMargin = 0;
-            findViewById(R.id.nav_host_fragment).setLayoutParams(layoutParams);
-        });
+    private fun adjustFragmentContainerMargins() {
+        findViewById<ViewGroup>(R.id.nav_host_fragment).post {
+            val layoutParams = findViewById<ViewGroup>(R.id.nav_host_fragment).layoutParams
+                    as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = 0
+            findViewById<ViewGroup>(R.id.nav_host_fragment).layoutParams = layoutParams
+        }
     }
 
-    private void setupDestinationChangedListener(NavHostFragment navHostFragment) {
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            Fragment currentFragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
-            if (currentFragment instanceof BaseFragment) {
-                ((BaseFragment) currentFragment).refreshLayout();
+    private fun setupDestinationChangedListener(navHostFragment: NavHostFragment) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val currentFragment = navHostFragment.childFragmentManager.fragments[0]
+            if (currentFragment is BaseFragment) {
+                currentFragment.refreshLayout()
             }
 
             if (!isNavigatingFromBottomNav) {
-                int destId = destination.getId();
-                bottomNav.setOnItemSelectedListener(null);
+                val destId = destination.id
+                bottomNav.setOnItemSelectedListener(null)
 
-                if (destId == R.id.homeFragment) {
-                    bottomNav.setSelectedItemId(R.id.homeFragment);
-                } else if (destId == R.id.bmiCalculatorFragment) {
-                    bottomNav.setSelectedItemId(R.id.bmiCalculatorFragment);
-                } else if (destId == R.id.calorieCalculatorFragment) {
-                    bottomNav.setSelectedItemId(R.id.calorieCalculatorFragment);
+                when (destId) {
+                    R.id.homeFragment -> bottomNav.selectedItemId = R.id.homeFragment
+                    R.id.bmiCalculatorFragment -> bottomNav.selectedItemId =
+                        R.id.bmiCalculatorFragment
+
+                    R.id.calorieCalculatorFragment -> bottomNav.selectedItemId =
+                        R.id.calorieCalculatorFragment
+
+                    R.id.shoppingListFragment -> bottomNav.selectedItemId =
+                        R.id.shoppingListFragment
                 }
 
-                bottomNav.setOnItemSelectedListener(this);
+                bottomNav.setOnItemSelectedListener(this)
             }
-        });
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        try {
-            isNavigatingFromBottomNav = true;
-            return NavigationHelper.handleNavigation(item.getItemId(), navController);
-        } finally {
-            isNavigatingFromBottomNav = false;
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        return navController != null && navController.navigateUp() || super.onSupportNavigateUp();
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        try {
+            isNavigatingFromBottomNav = true
+            return NavigationHelper.handleNavigation(item.itemId, navController)
+        } finally {
+            isNavigatingFromBottomNav = false
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
