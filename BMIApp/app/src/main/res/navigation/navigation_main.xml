@@ -19,6 +19,10 @@
         <action
             android:id="@+id/action_homeFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
+        <!-- Dodaj tę akcję do BmiChartFragment -->
+        <action
+            android:id="@+id/action_homeFragment_to_bmiChartFragment"
+            app:destination="@id/bmiChartFragment" />
     </fragment>
 
     <fragment
@@ -43,5 +47,10 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/bmiChartFragment"
+        android:name="pl.pjwstk.bmiapp.ui.fragments.chart.BmiChartFragment"
+        android:label="Wykres BMI"
+        tools:layout="@layout/fragment_bmi_chart" />
 
 </navigation>

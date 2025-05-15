@@ -31,7 +31,6 @@ class RecipesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recipesContainer = view.findViewById(R.id.recipesContainer)
 
-        // Zapisujemy referencję do oryginalnej tablicy przepisów
         recipesList = Recipe.getSampleRecipes()
 
         loadRecipes()
@@ -64,18 +63,15 @@ class RecipesFragment : Fragment() {
             recipeView.findViewById(R.id.recipeInstructionsTextView)
         instructionsTextView.text = recipe.instructions
 
-        // Dodanie przycisku do generowania listy zakupów
         val generateShoppingListButton: Button =
             recipeView.findViewById(R.id.generateShoppingListButton)
         generateShoppingListButton.setOnClickListener {
             val navController =
                 Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
-            // Używamy tablicy recipesList zamiast wywoływać getSampleRecipes ponownie
             val recipeIndex = recipesList.indexOf(recipe)
             Log.d(TAG, "Generuję listę zakupów dla przepisu: ${recipe.title}, indeks: $recipeIndex")
 
-            // Używamy pomocnika do nawigacji, jak było wcześniej
             NavigationHelper.navigateToShoppingList(navController, recipeIndex)
         }
 

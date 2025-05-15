@@ -84,9 +84,16 @@ class ShoppingListFragment : Fragment() {
         if (existingItems.isNotEmpty()) {
             Log.d(TAG, "Found ${existingItems.size} existing items")
             adapter.updateItems(existingItems)
+            titleTextView.text = "Lista zakupów"
         } else {
-            Log.d(TAG, "No existing items found, showing empty list")
-            showEmptyList("Lista zakupów")
+            Log.d(TAG, "No existing items found, loading default recipe")
+            val recipes = recipeRepository.getAllRecipes()
+            if (recipes.isNotEmpty()) {
+                val defaultRecipe = recipes[0]
+                generateShoppingListForRecipe(defaultRecipe)
+            } else {
+                showEmptyList("Lista zakupów")
+            }
         }
     }
 

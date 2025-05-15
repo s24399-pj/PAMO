@@ -176,9 +176,6 @@ class CalorieCalculatorFragment : BaseFragment() {
         scrollView.post { scrollView.smoothScrollTo(0, resultTextView.bottom) }
     }
 
-    /**
-     * Tworzenie widoku dla pojedynczego przepisu
-     */
     private fun createRecipeView(recipe: Recipe): View {
         val recipeView = layoutInflater.inflate(R.layout.item_recipe, recipesContainer, false)
 

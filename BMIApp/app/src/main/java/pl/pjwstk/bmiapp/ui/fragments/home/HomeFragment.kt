@@ -30,6 +30,12 @@ class HomeFragment : BaseFragment() {
             Navigation.findNavController(v)
                 .navigate(R.id.action_homeFragment_to_calorieCalculatorFragment)
         }
+
+        // Nowy przycisk do wykresu BMI
+        view.findViewById<View>(R.id.btnBmiChart).setOnClickListener { v ->
+            Navigation.findNavController(v)
+                .navigate(R.id.action_homeFragment_to_bmiChartFragment)
+        }
     }
 
     override fun fixLayout() {
